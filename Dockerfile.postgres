@@ -1,0 +1,5 @@
+# Dockerfile.postgres
+FROM postgres:16
+
+# Copy init SQL scripts (run once on first DB creation)
+COPY init.sql /docker-entrypoint-initdb.d/init.sql
