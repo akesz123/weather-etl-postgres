@@ -20,6 +20,7 @@ def load_weather_data(rows):
                 rows,
             )
         conn.commit()
+        conn.close()
     print(f"Inserted {len(rows)} rows.")
 
 if __name__ == "__main__":
