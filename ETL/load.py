@@ -2,6 +2,9 @@ import psycopg
 
 def load_weather_data(rows):
 
+    inserted=0
+    skipped=0
+
     with psycopg.connect(
         host="localhost",
         port=65433,
@@ -9,25 +12,45 @@ def load_weather_data(rows):
         user="appuser",
         password="apppass",
     ) as conn:
+        
         with conn.cursor() as cur:
-            cur.executemany(
-                """
-                INSERT INTO weather_data
-                    (time, temperature_2m, relative_humidity_2m, windspeed_10m, weathercode)
-                VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT (time) DO NOTHING
-                """,
-                rows,
-            )
+
+            
+            for row in rows:
+     
+                    cur.execute(
+                        """
+                        INSERT INTO weather_data
+                            (time,
+                             temperature_2m,
+                             relative_humidity_2m,
+                             windspeed_10m,
+                             weathercode)
+                        VALUES (%s, %s, %s, %s, %s)
+                        ON CONFLICT (time) DO NOTHING
+                        RETURNING id
+                        """,
+                        row,
+                    )
+
+                    inserted_row = cur.fetchone()
+                    if inserted_row is not None:
+                        inserted += 1
+                    else:
+                         skipped += 1
+
         conn.commit()
-        conn.close()
-    print(f"Inserted {len(rows)} rows.")
+        skipped = len(rows) - inserted
+    
+    print(f"Rows received: {len(rows)}")
+    print(f"Inserted {inserted} rows.")
+    print(f"Skipped {skipped} rows.")
 
 if __name__ == "__main__":
 
     test_rows = [
         (
-            "2026-08-17T10:00",
+            "2026-08-17T10:00:00+02:00",
             25.5,
             60,
             10.2,

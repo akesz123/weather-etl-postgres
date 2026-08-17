@@ -1,4 +1,7 @@
 import json
+from pathlib import Path
+from extract import extract_weather
+
 
 def transform_weather_data(file_path):
 
@@ -39,6 +42,6 @@ def validate_weather_data(data):
         print(f"All required fields have the same length: {lengths[required_fields[0]]} entries.")
 
 if __name__=="__main__":
-    file_path="data/raw/weather_budapest_at_month_2026-05.json"
+    file_path=extract_weather()
     rows=transform_weather_data(file_path)
     print(f"Transformed {len(rows)} rows.")

@@ -1,9 +1,7 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 import json
 import requests
-
-from main import API_URL
 
 API_URL = "https://archive-api.open-meteo.com/v1/archive"
 date_from=datetime(2026, 5, 1)  # Start date for the forecast
@@ -33,7 +31,7 @@ def extract_weather():
 
     # Create a unique filename with a timestamp; hyphens are used instead of colons
     # because Windows does not allow ':' in file names.
-    file_name = f"weather_budapest_at_month_{date_from.strftime('%Y-%m')}.json"
+    file_name = (f"weather_budapest_{date_from.strftime('%Y-%m-%d')}_to_{date_to.strftime('%Y-%m-%d')}.json")
     file_path = Path("data/raw") / file_name
     file_path.parent.mkdir(parents=True, exist_ok=True)  
     # Ensure the folder exists
@@ -45,3 +43,7 @@ def extract_weather():
     # Print the save location and the JSON content for quick inspection
     print(f"Weather data saved to {file_path}")
 
+    return file_path  # Return the path to the saved file for further processing
+
+if __name__ == "__main__":
+    extract_weather() 
