@@ -1,5 +1,7 @@
 import psycopg
 
+from transform import transform_weather_data
+from extract import extract_weather
 
 def load_weather_data(rows):
 
@@ -48,5 +50,5 @@ def load_weather_data(rows):
     print(f"Skipped {skipped} rows.")
 
 if __name__ == "__main__":
-
-    load_weather_data(test_rows)
+    final_rows = transform_weather_data(file_path=extract_weather())
+    load_weather_data(final_rows)

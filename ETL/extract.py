@@ -31,7 +31,7 @@ def extract_weather():
 
     # Create a unique filename with a timestamp; hyphens are used instead of colons
     # because Windows does not allow ':' in file names.
-    file_name = (f"weather_budapest_{date_from.strftime('%Y-%m-%d')}_to_{date_to.strftime('%Y-%m-%d')}.json")
+    file_name = (f"weather_budapest_{date_from.strftime('%Y%m%d')}_to_{date_to.strftime('%Y%m%d')}.json")
     file_path = Path("data/raw") / file_name
     file_path.parent.mkdir(parents=True, exist_ok=True)  
     # Ensure the folder exists
