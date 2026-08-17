@@ -1,5 +1,6 @@
 import psycopg
 
+
 def load_weather_data(rows):
 
     inserted=0
@@ -47,15 +48,5 @@ def load_weather_data(rows):
     print(f"Skipped {skipped} rows.")
 
 if __name__ == "__main__":
-
-    test_rows = [
-        (
-            "2026-08-17T10:00:00+02:00",
-            25.5,
-            60,
-            10.2,
-            1,
-        )
-    ]
 
     load_weather_data(test_rows)
